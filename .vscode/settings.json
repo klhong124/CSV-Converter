@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\klhon\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
+    "python.pythonPath": "/Library/Frameworks/Python.framework/Versions/3.7/bin/python3",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true
 }

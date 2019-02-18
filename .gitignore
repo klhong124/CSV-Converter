@@ -4,3 +4,4 @@ venv
 MySQL_connector.py
 .vscode/settings.json
 *.pyc
+.vscode/settings.json
