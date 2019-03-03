@@ -9,8 +9,8 @@ connection = pymysql.connect(
   password='',
   db='cc_logistics',
   charset='utf8mb4',
-  cursorclass=pymysql.cursors.DictCursor
-)
+  cursorclass=pymysql.cursors.DictCursor)
+
 def check(data):
   print(Fore.GREEN +"\nChecking shipper_id exist in database...")
   with connection.cursor() as cursor:
@@ -20,10 +20,13 @@ def check(data):
       FROM
         `shipper_table`
       WHERE
-        `name` = '{data['shipper_name']}'
+        `username` = '{data['shipper_name']}'
     ''')
     cursor.close()
-  return result
+  if result:
+    return list(cursor)[0]["shipper_id"]
+  else:
+    return 0
 
 def create_shipper(data):
   print(Fore.GREEN +"\nCreating shipper_id...")
@@ -34,24 +37,76 @@ def create_shipper(data):
       VALUES (
         NULL,
         '{data["shipper_name"]}', 
-        'test', 
-        'test', 
+        '{data["shipper_email"]}', 
+        'password', 
         CURRENT_TIMESTAMP, 
         CURRENT_TIMESTAMP, 
         NULL
-      )
+      );
     ''')
+    shipper_id = connection.insert_id()
     connection.commit()
     cursor.close()
-    print("\t...shipper_id created!")
+    print(f"\t\t\t\t...shipper_id[{shipper_id}] created!")
+  return shipper_id
 
+def create_order(data, shipper_id):
+  print(Fore.GREEN +f"\nCreating order by shipper_id[{shipper_id}]...")
+  invoice_id = create_invoice(shipper_id)
+  invoice_init(data,invoice_id)
 
+def create_invoice(shipper_id):
+  with connection.cursor() as cursor:
+    cursor.execute(f'''
+      INSERT INTO 
+        `invoice_table`
+      VALUES (
+        NULL,
+        '{shipper_id}'
+      );
+    ''')
+    invoice_id = connection.insert_id()
+    connection.commit()
+    cursor.close()
+    print(f"\t\t\t\t...invoice[{invoice_id}] created!")
+  return invoice_id
 
-def create_order(data):
-  print(Fore.GREEN +"\nCreating order...")
-  # with connection.cursor() as cursor:
-  #   cursor.execute(f'''
-
-  #   ''')
-  #   connection.commit()
-  #   cursor.close()
+def invoice_init(data,invoice_id):
+   with connection.cursor() as cursor:
+      cursor.execute(f'''
+        INSERT INTO 
+          `invoice_process` (
+            `invoice_id`
+            ) 
+        VALUES (
+          '{invoice_id}'
+        );
+      ''')
+      connection.commit()
+      print("\t\t\t\t...invoice_process initialized!")
+      cursor.execute(f'''
+        INSERT INTO 
+          `invoice_receiver`
+        VALUES (
+          '{invoice_id}',
+          '{data["receiver_name"]}', 
+          '{data["receiver_address"]}', 
+          '{data["receiver_contact"]}'
+        );
+      ''')
+      connection.commit()
+      print("\t\t\t\t...invoice_receiver initialized!")
+      cursor.execute(f'''
+        INSERT INTO 
+          `invoice_detail`
+        VALUES (
+          '{invoice_id}',
+          '{data["quantity"]}', 
+          '{data["weight"]}', 
+          'normal'
+        );
+      ''')
+      connection.commit()
+      print("\t\t\t\t...invoice_detail initialized!")
+      cursor.close()
+      
