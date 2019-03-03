@@ -1,6 +1,5 @@
 
 venv
 .idea
-MySQL_connector.py
 .vscode/settings.json
 *.pyc

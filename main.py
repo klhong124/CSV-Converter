@@ -1,7 +1,16 @@
 import MySQL_connector
-import CSV_Reader
+import CSV_reader
+import json
+import colorama
+from colorama import Fore, Back, Style
+colorama.init(autoreset=True)
+print('\033[2J'+Fore.YELLOW+Back.RED+"\tWelcome to "+Fore.WHITE+Back.RED+"CC_LOGISTICS"+Fore.YELLOW+Back.RED+" .csv converter\t")
 
-CSV_Reader.csv2json("demo.csv")
-MySQL_connector.insert(
-    1,"[{'product_id':'2','product_name':'王泉','qty':'11','description':'Wong330ml','weight':'330g'},{'product_id':'1','product_name':'玉泉','qty':'12','description':'CreamSoda330mL','weight':'330g'}]","cityu,kln","cityu,ac2,kln","2019-01-3111:06:03", 2 ,"{'customer_name':'玉王牌','contact':'59883943','description':'SoftDrinkCompany','address':'cityu,ac2,kln'}"
-)
+data = json.loads(CSV_reader.csv2json("demo.csv"))[0]
+
+if MySQL_connector.check(data):
+    print("\t\t\t\t...shipper_id exist!")
+    MySQL_connector.create_order(data)
+else:
+    print("\t\t\t\t...shipper_id not exist!")
+    MySQL_connector.create_shipper(data)
