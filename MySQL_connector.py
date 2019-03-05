@@ -41,7 +41,8 @@ def create_shipper(data):
         'password', 
         CURRENT_TIMESTAMP, 
         CURRENT_TIMESTAMP, 
-        NULL
+        NULL,
+        2
       );
     ''')
     shipper_id = connection.insert_id()
