@@ -1,4 +1,4 @@
-pathbase = "C:\\Users\\Hong\\GitHub\\Business-Logistics-System\\public\\uploads\\"
+pathbase = "..\\"
 #csvname = "test.output.csv"
 #csvname = "Customer.csv"
 csvname = "data.csv"
