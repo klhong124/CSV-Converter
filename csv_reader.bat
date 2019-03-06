@@ -1,2 +1,2 @@
-python C:/Users/Hong/GitHub/csv_reader/main.py
+python C:\Users\Hong\GitHub\csv_reader\csv_reader_API\main.py
 PAUSE
