@@ -78,4 +78,10 @@
 {"name": "ok", "time": "2019-03-06 18:36:15", "status": "csv format"},
 {"name": "ok", "time": "2019-03-06 18:36:26", "status": "csv format"},
 {"name": "ok", "time": "2019-03-06 18:36:32", "status": "csv format"},
-{"name": "ok", "time": "2019-03-06 18:36:35", "status": "csv format"}]
+{"name": "ok", "time": "2019-03-06 18:36:35", "status": "csv format"},
+{"name": "ok", "time": "2019-03-06 18:42:17", "status": "csv format"},
+{"name": "ok", "time": "2019-03-06 18:42:30", "status": "csv format"},
+{"name": "ok", "time": "2019-03-06 18:42:33", "status": "csv format"},
+{"name": "ok", "time": "2019-03-06 18:42:50", "status": "csv format"},
+{"name": "test.output.csv", "time": "2019-03-06 18:43:32", "status": "success"},
+{"name": "C:\\Users\\Hong\\GitHub\\Business-Logistics-System\\public\\uploads\\test.output.csv", "time": "2019-03-06 18:46:32", "status": "success"}]

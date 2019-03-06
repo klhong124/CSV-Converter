@@ -27,4 +27,4 @@ MySQL_connector.create_order(data, shipper_id)
 print("\n"+Fore.YELLOW+Back.RED+"\t\t    Data insert completed!    \t\t\t")
 
 #csv_log update
-JSON_generator.log_update(PATH_controll.csvpath, "success")
+JSON_generator.log_update(PATH_controll.csvname, "success")

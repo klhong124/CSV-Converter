@@ -9,10 +9,10 @@ def json_write(data):
 
 def log_update(name,status):
     def json_reboot():
-        with open(PATH_controll.jsonpath, 'w') as csv_log:
+        with open(PATH_controll.csvname, 'w') as csv_log:
             csv_log.write('''[\n{"name": "csv_init", "time": "2000-01-01 00:00:00", "status": "init_success"}]''')
     try:
-        with open(PATH_controll.jsonpath) as csv_log:
+        with open(PATH_controll.csvname) as csv_log:
             try:
                 json.load(csv_log)
             except:
@@ -20,7 +20,7 @@ def log_update(name,status):
     except:
         json_reboot()
 
-    with open(PATH_controll.jsonpath, 'rb+') as csv_log:
+    with open(PATH_controll.csvname, 'rb+') as csv_log:
         csv_log.seek(-1, os.SEEK_END)
         csv_log.truncate()
 

@@ -1,2 +1,2 @@
-shipper_name,shipper_email,quantity,weight,receiver_name,receiver_address,receiver_contact
-DUMMY,name@email.com,1,1.0,Web Store 1,"NO.45, WO HING TSUEN,NO. 45, WO HING TSUEN, NORTH, NT",98765432
+[
+{"name": "csv_init", "time": "2000-01-01 00:00:00", "status": "init_success"}
