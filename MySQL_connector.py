@@ -33,7 +33,7 @@ def check(data):
   except:
       print(Fore.RED+"\t\t\t\t...data[{shipper_name}] missing!")
       print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-      JSON_generator.log_update(PATH_controll.jsonpath, "shipper_name")
+      JSON_generator.log_update(PATH_controll.csvname, "shipper_name")
       quit()
 
 def create_shipper(data):
@@ -60,7 +60,7 @@ def create_shipper(data):
   except:
     print(Fore.RED+"\t\t\t\t...data[{shipper_email}] missing!")
     print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-    JSON_generator.log_update(PATH_controll.jsonpath, "shipper_email")
+    JSON_generator.log_update(PATH_controll.csvname, "shipper_email")
     quit()
 
   try:
@@ -76,7 +76,7 @@ def create_shipper(data):
   except:
     print(Fore.RED+"\t\t\t\t...data[{shipper_id}] missing!")
     print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-    JSON_generator.log_update(PATH_controll.jsonpath, "interal error")
+    JSON_generator.log_update(PATH_controll.csvname, "interal error")
     quit()
 
   cursor.close()
@@ -105,7 +105,7 @@ def create_invoice(shipper_id):
   except:
     print(Fore.RED+"\t\t\t\t...data[{shipper_id}] missing!")
     print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-    JSON_generator.log_update(PATH_controll.jsonpath, "interal error")
+    JSON_generator.log_update(PATH_controll.csvname, "interal error")
     quit()
     
   return invoice_id
@@ -127,7 +127,7 @@ def invoice_init(data,invoice_id):
       except:
         print(Fore.RED+"\t\t\t\t...data[{shipper_id}] missing!")
         print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-        JSON_generator.log_update(PATH_controll.jsonpath, "interal error")
+        JSON_generator.log_update(PATH_controll.csvname, "interal error")
         quit()
       try:
         cursor.execute(f'''
@@ -145,7 +145,7 @@ def invoice_init(data,invoice_id):
       except:
         print(Fore.RED+"\t\t\t\t...data[{invoice_receiver}] missing!")
         print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-        JSON_generator.log_update(PATH_controll.jsonpath, "receiver_name,receiver_address,receiver_contact")
+        JSON_generator.log_update(PATH_controll.csvname, "receiver_name,receiver_address,receiver_contact")
         quit()
       try:
         cursor.execute(f'''
@@ -163,7 +163,7 @@ def invoice_init(data,invoice_id):
       except:
         print(Fore.RED+"\t\t\t\t...data[{invoice_detail}] missing!")
         print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-        JSON_generator.log_update(PATH_controll.jsonpath, "quantity,weight")
+        JSON_generator.log_update(PATH_controll.csvname, "quantity,weight")
         quit()
 
       cursor.close()
