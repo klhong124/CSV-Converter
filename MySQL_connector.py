@@ -38,8 +38,11 @@ def check(data):
 
 def create_shipper(data):
   try:
-    print(Fore.GREEN +"\nCreating shipper_id...")
-    with connection.cursor() as cursor:
+    data["shipper_email"]
+  except KeyError:
+    data["shipper_email"] = "NULL"
+  with connection.cursor() as cursor:
+    try:
       cursor.execute(f'''
         INSERT INTO 
           `users` 
@@ -57,27 +60,26 @@ def create_shipper(data):
       shipper_id = connection.insert_id()
       connection.commit()
       print(f"\t\t\t\t...shipper_id[{shipper_id}] created!")
-  except:
-    print(Fore.RED+"\t\t\t\t...data[{shipper_email}] missing!")
-    print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-    JSON_generator.log_update(PATH_controll.csvname, "shipper_email")
-    quit()
-
-  try:
-    cursor.execute(f'''
-      INSERT INTO 
-        `users_detail`
-      VALUES (
-        '{shipper_id}',
-      );
-    ''')
-    connection.commit()
-    print("\t\t\t\t...invoice_process initialized!")
-  except:
-    print(Fore.RED+"\t\t\t\t...data[{shipper_id}] missing!")
-    print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-    JSON_generator.log_update(PATH_controll.csvname, "interal error")
-    quit()
+    except:
+      print(Fore.RED+"\t\t\t\t...data[{shipper_email}] error!")
+      print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
+      JSON_generator.log_update(PATH_controll.csvname, "shipper_email")
+      quit()
+    try:
+      cursor.execute(f'''
+        INSERT INTO 
+          `users_detail`(id)
+          VALUES (
+          '{shipper_id}'
+        );
+      ''')
+      connection.commit()
+      print("\t\t\t\t...invoice_process initialized!")
+    except:
+      print(Fore.RED+"\t\t\t\t...data[{shipper_id}] missing!")
+      print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
+      JSON_generator.log_update(PATH_controll.csvname, "interal error")
+      quit()
 
   cursor.close()
   return shipper_id
