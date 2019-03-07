@@ -88,6 +88,7 @@ def create_order(data, shipper_id):
   print(Fore.GREEN +f"\nCreating order by shipper_id[{shipper_id}]...")
   invoice_id = create_invoice(shipper_id)
   invoice_init(data,invoice_id)
+  return invoice_id
 
 def create_invoice(shipper_id):
   try:
@@ -169,4 +170,3 @@ def invoice_init(data,invoice_id):
         quit()
 
       cursor.close()
-      

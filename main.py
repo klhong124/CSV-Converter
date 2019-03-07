@@ -25,9 +25,10 @@ print("\n"+Fore.YELLOW+Back.RED+"\t\t    Data insert process...    \t\t\t")
 
 for data in datas:
     #Create order for shipper
-    MySQL_connector.create_order(data, shipper_id)
+    invoice_id = MySQL_connector.create_order(data, shipper_id)
 
 print("\n"+Fore.YELLOW+Back.RED+"\t\t    Data insert completed!    \t\t\t")
 
 #csv_log update
-JSON_generator.log_update(PATH_controll.csvname, "success")
+
+JSON_generator.log_update(PATH_controll.csvname, "success",invoice_id)
