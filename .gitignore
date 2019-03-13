@@ -3,3 +3,4 @@ venv
 .idea
 .vscode/settings.json
 *.pyc
+PATH_controll.py

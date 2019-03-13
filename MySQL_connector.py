@@ -1,6 +1,8 @@
 import pymysql.cursors
 import JSON_generator
 import colorama
+import PATH_controll
+import uuid
 from colorama import Fore, Back, Style
 colorama.init(autoreset=True)
 
@@ -32,13 +34,16 @@ def check(data):
   except:
       print(Fore.RED+"\t\t\t\t...data[{shipper_name}] missing!")
       print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-      JSON_generator.log_update("ok", "shipper_name")
+      JSON_generator.log_update(PATH_controll.csvname, "shipper_name missing","N/A")
       quit()
 
 def create_shipper(data):
   try:
-    print(Fore.GREEN +"\nCreating shipper_id...")
-    with connection.cursor() as cursor:
+    data["shipper_email"]
+  except KeyError:
+    data["shipper_email"] = uuid.uuid4().hex
+  with connection.cursor() as cursor:
+    try:
       cursor.execute(f'''
         INSERT INTO 
           `users` 
@@ -56,27 +61,26 @@ def create_shipper(data):
       shipper_id = connection.insert_id()
       connection.commit()
       print(f"\t\t\t\t...shipper_id[{shipper_id}] created!")
-  except:
-    print(Fore.RED+"\t\t\t\t...data[{shipper_email}] missing!")
-    print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-    JSON_generator.log_update("ok", "shipper_email")
-    quit()
-
-  try:
-    cursor.execute(f'''
-      INSERT INTO 
-        `users_detail`
-      VALUES (
-        '{shipper_id}',
-      );
-    ''')
-    connection.commit()
-    print("\t\t\t\t...invoice_process initialized!")
-  except:
-    print(Fore.RED+"\t\t\t\t...data[{shipper_id}] missing!")
-    print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-    JSON_generator.log_update("ok", "interal error")
-    quit()
+    except:
+      print(Fore.RED+"\t\t\t\t...data[{shipper_email}] error!")
+      print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
+      JSON_generator.log_update(PATH_controll.csvname, "shipper_email missing","N/A")
+      quit()
+    try:
+      cursor.execute(f'''
+        INSERT INTO 
+          `users_detail`(id)
+          VALUES (
+          '{shipper_id}'
+        );
+      ''')
+      connection.commit()
+      print("\t\t\t\t...invoice_process initialized!")
+    except:
+      print(Fore.RED+"\t\t\t\t...data[{shipper_id}] missing!")
+      print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
+      JSON_generator.log_update(PATH_controll.csvname, "interal error, please contact us","N/A")
+      quit()
 
   cursor.close()
   return shipper_id
@@ -85,6 +89,7 @@ def create_order(data, shipper_id):
   print(Fore.GREEN +f"\nCreating order by shipper_id[{shipper_id}]...")
   invoice_id = create_invoice(shipper_id)
   invoice_init(data,invoice_id)
+  return invoice_id
 
 def create_invoice(shipper_id):
   try:
@@ -104,7 +109,7 @@ def create_invoice(shipper_id):
   except:
     print(Fore.RED+"\t\t\t\t...data[{shipper_id}] missing!")
     print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-    JSON_generator.log_update("ok", "interal error")
+    JSON_generator.log_update(PATH_controll.csvname, "interal error , please contact us","N/A")
     quit()
     
   return invoice_id
@@ -126,7 +131,7 @@ def invoice_init(data,invoice_id):
       except:
         print(Fore.RED+"\t\t\t\t...data[{shipper_id}] missing!")
         print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-        JSON_generator.log_update("ok", "interal error")
+        JSON_generator.log_update(PATH_controll.csvname, "interal error , please contact us","N/A")
         quit()
       try:
         cursor.execute(f'''
@@ -144,8 +149,12 @@ def invoice_init(data,invoice_id):
       except:
         print(Fore.RED+"\t\t\t\t...data[{invoice_receiver}] missing!")
         print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-        JSON_generator.log_update("ok", "receiver_name,receiver_address,receiver_contact")
+        JSON_generator.log_update(PATH_controll.csvname, "receiver_name, receiver_address, receiver_contact missing","N/A")
         quit()
+      try:
+        data["weight"]
+      except KeyError:
+        data["weight"] = uuid.uuid4().hex
       try:
         cursor.execute(f'''
           INSERT INTO 
@@ -162,8 +171,7 @@ def invoice_init(data,invoice_id):
       except:
         print(Fore.RED+"\t\t\t\t...data[{invoice_detail}] missing!")
         print(Fore.RED+Back.YELLOW+"\n\t\t\t!--ERROR--! \t\t\t\t")
-        JSON_generator.log_update("ok", "quantity,weight")
+        JSON_generator.log_update(PATH_controll.csvname, "quantity, weight missing","N/A")
         quit()
 
       cursor.close()
-      

@@ -6,7 +6,7 @@ Read .csv file and insert into database
 1. pip install pandas
 2. pip install xlrd
 3. pip install pymysql
-4. pyhon -m pip install colorama
+4. python -m pip install colorama
 
 ## CSV_Reader.py
 > Build the object before encoding it to a JSON string
